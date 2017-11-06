@@ -37,6 +37,6 @@ public class GameManager : MonoBehaviour {
 		if (playerInstance != null) {
 			Destroy(playerInstance.gameObject);
 		}
-		BeginGame());
+		BeginGame();
 	}
 }
