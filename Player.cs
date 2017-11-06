@@ -40,13 +40,6 @@ public class Player : MonoBehaviour {
 		if (Input.GetKey (KeyCode.D)) {
 			transform.Translate (Vector3.right * 5f * Time.deltaTime);
 		}
-		if(Input.GetAxis("Mouse X") < 0) {
-			transform.Rotate(Vector3.up) * 5f;
-		}
-		if(Input.GetAxis("Mouse X") > 0) {
-			transform.Rotate(Vector3.up) * -5f;
-		}
-		transform.Rotate(Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * Time.deltaTime * speed);
 		else if (Input.GetKeyDown(KeyCode.Q)) {
 			Look(currentDirection.GetNextCounterclockwise());
 		}
