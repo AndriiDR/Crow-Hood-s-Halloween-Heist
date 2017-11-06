@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Player : MonoBehaviour {
 
@@ -26,20 +26,27 @@ public class Player : MonoBehaviour {
 		transform.localRotation = direction.ToRotation();
 		currentDirection = direction;
 	}
-	
+
 	private void Update () {
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-			Move(currentDirection);
+		if (Input.GetKey (KeyCode.W)) {
+			transform.Translate (Vector3.forward * 5f * Time.deltaTime);
 		}
-		else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-			Move(currentDirection.GetNextClockwise());
+		if (Input.GetKey (KeyCode.S)) {
+			transform.Translate (Vector3.back * 5f * Time.deltaTime);
 		}
-		else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-			Move(currentDirection.GetOpposite());
+		if (Input.GetKey (KeyCode.A)) {
+			transform.Translate (Vector3.left * 5f * Time.deltaTime);
 		}
-		else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-			Move(currentDirection.GetNextCounterclockwise());
+		if (Input.GetKey (KeyCode.D)) {
+			transform.Translate (Vector3.right * 5f * Time.deltaTime);
 		}
+		if(Input.GetAxis("Mouse X") < 0) {
+			transform.Rotate(Vector3.up) * 5f;
+		}
+		if(Input.GetAxis("Mouse X") > 0) {
+			transform.Rotate(Vector3.up) * -5f;
+		}
+		transform.Rotate(Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * Time.deltaTime * speed);
 		else if (Input.GetKeyDown(KeyCode.Q)) {
 			Look(currentDirection.GetNextCounterclockwise());
 		}
