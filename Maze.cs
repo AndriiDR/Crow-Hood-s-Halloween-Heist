@@ -24,6 +24,8 @@ public class Maze : MonoBehaviour {
 	private MazeCell[,] cells;
 
 	private List<MazeRoom> rooms = new List<MazeRoom>();
+	
+	private MazeCell exit;
 
 	public IntVector2 RandomCoordinates {
 		get {
@@ -82,7 +84,13 @@ public class Maze : MonoBehaviour {
 			}
 		}
 		else {
-			CreateWall(currentCell, null, direction);
+			if(currentCell.coordinates.x == size.x-1 && currentCell.coordinates.z == size.z-1){
+				activeCells.RemoveAt(currentIndex);
+				exit = currentCell; //saves the exit for later
+			}
+			else{
+				CreateWall(currentCell, null, direction);
+			}
 		}
 	}
 
