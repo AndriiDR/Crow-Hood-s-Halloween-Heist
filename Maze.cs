@@ -73,7 +73,8 @@ public class Maze : MonoBehaviour {
 				CreatePassage(currentCell, neighbor, direction);
 				activeCells.Add(neighbor);
 			}
-			else if (currentCell.room == neighbor.room) {
+			else if (currentCell.room.settingsIndex == neighbor.room.settingsIndex
+			         && Random.Range(0,10) < 7) {
 				CreatePassageInSameRoom(currentCell, neighbor, direction);
 			}
 			else {
