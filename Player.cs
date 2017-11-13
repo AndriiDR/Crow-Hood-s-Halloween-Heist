@@ -1,11 +1,11 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-
+	
 	private MazeCell currentCell;
-
+	
 	private MazeDirection currentDirection;
-
+	
 	public void SetLocation (MazeCell cell) {
 		if (currentCell != null) {
 			currentCell.OnPlayerExited();
@@ -14,19 +14,19 @@ public class Player : MonoBehaviour {
 		transform.localPosition = cell.transform.localPosition;
 		currentCell.OnPlayerEntered();
 	}
-
+	
 	private void Move (MazeDirection direction) {
 		MazeCellEdge edge = currentCell.GetEdge(direction);
 		if (edge is MazePassage) {
 			SetLocation(edge.otherCell);
 		}
 	}
-
+	
 	private void Look (MazeDirection direction) {
 		transform.localRotation = direction.ToRotation();
 		currentDirection = direction;
 	}
-
+	
 	private void Update () {
 		if (Input.GetKey (KeyCode.W)) {
 			transform.Translate (Vector3.forward * 5f * Time.deltaTime);
@@ -40,11 +40,8 @@ public class Player : MonoBehaviour {
 		if (Input.GetKey (KeyCode.D)) {
 			transform.Translate (Vector3.right * 5f * Time.deltaTime);
 		}
-		else if (Input.GetKeyDown(KeyCode.Q)) {
-			Look(currentDirection.GetNextCounterclockwise());
-		}
-		else if (Input.GetKeyDown(KeyCode.E)) {
-			Look(currentDirection.GetNextClockwise());
-		}
+		float mouseInput = Input.GetAxis("Mouse X");
+		Vector3 lookhere = new Vector3(0,mouseInput,0);
+		transform.Rotate(lookhere);
 	}
 }
