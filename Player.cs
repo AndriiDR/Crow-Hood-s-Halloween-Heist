@@ -1,11 +1,11 @@
-using UnityEngine;
-
 public class Player : MonoBehaviour {
 	
 	private MazeCell currentCell;
 	
 	private MazeDirection currentDirection;
-	
+
+	public Rigidbody rb;
+
 	public void SetLocation (MazeCell cell) {
 		if (currentCell != null) {
 			currentCell.OnPlayerExited();
@@ -26,20 +26,29 @@ public class Player : MonoBehaviour {
 		transform.localRotation = direction.ToRotation();
 		currentDirection = direction;
 	}
+
+	private void Start() {
+		rb = GetComponent<Rigidbody>();
+	}
 	
 	private void Update () {
 		if (Input.GetKey (KeyCode.W)) {
-			transform.Translate (Vector3.forward * 5f * Time.deltaTime);
+			rb.AddRelativeForce(Vector3.forward * 30f * Time.deltaTime, ForceMode.Impulse);
+			//transform.Translate (Vector3.forward * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.S)) {
-			transform.Translate (Vector3.back * 5f * Time.deltaTime);
+			rb.AddRelativeForce(Vector3.back * 30f * Time.deltaTime, ForceMode.Impulse);
+			//transform.Translate (Vector3.back * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.A)) {
-			transform.Translate (Vector3.left * 5f * Time.deltaTime);
+			rb.AddRelativeForce(Vector3.left * 30f * Time.deltaTime, ForceMode.Impulse);
+			//transform.Translate (Vector3.left * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.D)) {
-			transform.Translate (Vector3.right * 5f * Time.deltaTime);
+			rb.AddRelativeForce(Vector3.right * 30f * Time.deltaTime, ForceMode.Impulse);
+			//transform.Translate (Vector3.right * 5f * Time.deltaTime);
 		}
+
 		float mouseInput = Input.GetAxis("Mouse X");
 		Vector3 lookhere = new Vector3(0,mouseInput,0);
 		transform.Rotate(lookhere);
