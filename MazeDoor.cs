@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System.Collections;
 
 public class MazeDoor : MazePassage {
 
@@ -41,5 +42,11 @@ public class MazeDoor : MazePassage {
 	public override void OnPlayerExited () {
 		OtherSideOfDoor.hinge.localRotation = hinge.localRotation = Quaternion.identity;
 		OtherSideOfDoor.cell.room.Hide();
+	}
+
+	void OnTriggerEnter(Collider controller) {
+		if (controller.gameObject.tag == "Player"){
+			OnPlayerEntered ();
+		}
 	}
 }
