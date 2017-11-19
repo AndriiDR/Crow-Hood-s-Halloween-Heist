@@ -144,32 +144,38 @@ public class Maze : MonoBehaviour {
 		rooms.Add(newRoom);
 		return newRoom;
 	}
-
+	
+    //Candy Generation
     public void GenerateCandy ()
     {
         foreach (MazeRoom mr in rooms)
         {
-            if (mr.getRoomSize() < 8)
+            if (mr.getRoomSize() < 8) //Certain number of cells to random gen
             {
                 CreateCandyAll(mr.getCells());
             }
             else
             {
-
+                RandomCandy(mr, mr.getRoomSize() / 10, 1);
             }
         }
     }
 
+    //Create candy on every cell
     public void CreateCandyAll (List<MazeCell> mc)
     {
         foreach (MazeCell c in mc)
         {
-            Candy candy = Instantiate(candyPrefabs[Random.Range(0, mc.Count)], c.transform) as Candy;
+            Candy candy = Instantiate(candyPrefabs[Random.Range(0, candyPrefabs.Length)], c.transform) as Candy;
         }
     }
     
-    public void RandomCandy (List<MazeCell>)
+    //Randomizes candy on random cells with decreasing chance to spawn with a really weird looking equation
+    public void RandomCandy (MazeRoom mr, int n, int x)
     {
-        for (Random.Range(0,100) > )
+        if (Random.Range(0,100) > 99 * (1 - Mathf.Pow(3, (-(x / (n * 3 ^ (1 / x))) + (n / x))))) {
+            Candy candy = Instantiate(candyPrefabs[Random.Range(0, candyPrefabs.Length)], mr.getRoomCell(Random.Range(0,mr.getCells().Count)).transform) as Candy;
+            RandomCandy(mr, n, x + 1);
+        }
     }
 }
