@@ -1,46 +1,46 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Maze : MonoBehaviour {
-
+	
 	public IntVector2 size;
-
+	
 	public MazeCell cellPrefab;
-
+	
 	public float generationStepDelay;
-
+	
 	public MazePassage passagePrefab;
-
+	
 	public MazeDoor doorPrefab;
-
+	
 	[Range(0f, 1f)]
 	public float doorProbability;
-
+	
 	public MazeWall[] wallPrefabs;
 
+    public Candy[] candyPrefabs;
+	
 	public MazeRoomSettings[] roomSettings;
-
+	
 	private MazeCell[,] cells;
-
+	
 	private List<MazeRoom> rooms = new List<MazeRoom>();
 	
-	private MazeCell exit;
-
 	public IntVector2 RandomCoordinates {
 		get {
 			return new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
 		}
 	}
-
+	
 	public bool ContainsCoordinates (IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.z >= 0 && coordinate.z < size.z;
 	}
-
+	
 	public MazeCell GetCell (IntVector2 coordinates) {
 		return cells[coordinates.x, coordinates.z];
 	}
-
+	
 	public void Generate () {
 		cells = new MazeCell[size.x, size.z];
 		List<MazeCell> activeCells = new List<MazeCell>();
@@ -52,13 +52,13 @@ public class Maze : MonoBehaviour {
 			rooms[i].Hide();
 		}*/
 	}
-
+	
 	private void DoFirstGenerationStep (List<MazeCell> activeCells) {
 		MazeCell newCell = CreateCell(new IntVector2(0, 0));
 		newCell.Initialize(CreateRoom(-1));
 		activeCells.Add(newCell);
 	}
-
+	
 	private void DoNextGenerationStep (List<MazeCell> activeCells) {
 		int currentIndex = activeCells.Count - 1;
 		MazeCell currentCell = activeCells[currentIndex];
@@ -84,16 +84,10 @@ public class Maze : MonoBehaviour {
 			}
 		}
 		else {
-			if(currentCell.coordinates.x == size.x-1 && currentCell.coordinates.z == size.z-1){
-				activeCells.RemoveAt(currentIndex);
-				exit = currentCell; //saves the exit for later
-			}
-			else{
-				CreateWall(currentCell, null, direction);
-			}
+			CreateWall(currentCell, null, direction);
 		}
 	}
-
+	
 	private MazeCell CreateCell (IntVector2 coordinates) {
 		MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
 		cells[coordinates.x, coordinates.z] = newCell;
@@ -103,7 +97,7 @@ public class Maze : MonoBehaviour {
 		newCell.transform.localPosition = new Vector3(coordinates.x - size.x * 0.5f + 0.5f, 0f, coordinates.z - size.z * 0.5f + 0.5f);
 		return newCell;
 	}
-
+	
 	private void CreatePassage (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazePassage prefab = Random.value < doorProbability ? doorPrefab : passagePrefab;
 		MazePassage passage = Instantiate(prefab) as MazePassage;
@@ -117,7 +111,7 @@ public class Maze : MonoBehaviour {
 		}
 		passage.Initialize(otherCell, cell, direction.GetOpposite());
 	}
-
+	
 	private void CreatePassageInSameRoom (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazePassage passage = Instantiate(passagePrefab) as MazePassage;
 		passage.Initialize(cell, otherCell, direction);
@@ -130,7 +124,7 @@ public class Maze : MonoBehaviour {
 			Destroy(roomToAssimilate);
 		}
 	}
-
+	
 	private void CreateWall (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazeWall wall = Instantiate(wallPrefabs[Random.Range(0, wallPrefabs.Length)]) as MazeWall;
 		wall.Initialize(cell, otherCell, direction);
@@ -139,7 +133,7 @@ public class Maze : MonoBehaviour {
 			wall.Initialize(otherCell, cell, direction.GetOpposite());
 		}
 	}
-
+	
 	private MazeRoom CreateRoom (int indexToExclude) {
 		MazeRoom newRoom = ScriptableObject.CreateInstance<MazeRoom>();
 		newRoom.settingsIndex = Random.Range(0, roomSettings.Length);
@@ -150,4 +144,32 @@ public class Maze : MonoBehaviour {
 		rooms.Add(newRoom);
 		return newRoom;
 	}
+
+    public void GenerateCandy ()
+    {
+        foreach (MazeRoom mr in rooms)
+        {
+            if (mr.getRoomSize() < 8)
+            {
+                CreateCandyAll(mr.getCells());
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+    public void CreateCandyAll (List<MazeCell> mc)
+    {
+        foreach (MazeCell c in mc)
+        {
+            Candy candy = Instantiate(candyPrefabs[Random.Range(0, mc.Count)], c.transform) as Candy;
+        }
+    }
+    
+    public void RandomCandy (List<MazeCell>)
+    {
+        for (Random.Range(0,100) > )
+    }
 }
