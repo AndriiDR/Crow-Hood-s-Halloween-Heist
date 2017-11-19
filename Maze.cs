@@ -167,6 +167,8 @@ public class Maze : MonoBehaviour {
         foreach (MazeCell c in mc)
         {
             Candy candy = Instantiate(candyPrefabs[Random.Range(0, candyPrefabs.Length)], c.transform) as Candy;
+            candy.transform.Translate(Vector3.up * 1f);
+            totalCandy++;
         }
     }
     
@@ -175,6 +177,8 @@ public class Maze : MonoBehaviour {
     {
         if (Random.Range(0,100) > 99 * (1 - Mathf.Pow(3, (-(x / (n * 3 ^ (1 / x))) + (n / x))))) {
             Candy candy = Instantiate(candyPrefabs[Random.Range(0, candyPrefabs.Length)], mr.getRoomCell(Random.Range(0,mr.getCells().Count)).transform) as Candy;
+            totalCandy++;
+            candy.transform.Translate(Vector3.up * 1f);
             RandomCandy(mr, n, x + 1);
         }
     }
