@@ -10,7 +10,7 @@ public class DetectDisplay : MonoBehaviour{
   }
 
   private void OnGUI(){
-    public string disField = GUI.TextField(new Rect(10, 10, 200, 20), count.ToString()); 
+    public string disField = GUI.TextField(new Rect(10, 10, 200, 20), count + "%"); 
                              //we can add another parameter for style of the text
     
   }
