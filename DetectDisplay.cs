@@ -5,7 +5,7 @@ public class DetectDisplay : MonoBehaviour{
 
   public int val; //how much the percentage increases or decreases per detection
   private int count; //detection percentage
-  private string disfield; //textbox
+  private string disField; //textbox
 
   private void Start(){
     count = 0;
