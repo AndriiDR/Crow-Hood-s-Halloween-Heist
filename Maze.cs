@@ -150,7 +150,7 @@ public class Maze : MonoBehaviour {
     {
         foreach (MazeRoom mr in rooms)
         {
-            if (mr.getRoomSize() < 8) //Certain number of cells to random gen
+            if (mr.getRoomSize() < 11) //Certain number of cells to random gen
             {
                 CreateCandyAll(mr.getCells());
             }
