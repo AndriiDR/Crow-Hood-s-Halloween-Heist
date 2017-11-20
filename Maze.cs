@@ -26,6 +26,14 @@ public class Maze : MonoBehaviour {
 	private MazeCell[,] cells;
 	
 	private List<MazeRoom> rooms = new List<MazeRoom>();
+
+    public Guard guardPrefab;
+
+    private IntVector2[] guardSpawns;
+
+    public int totalCandy;
+
+    public int totalGuards;
 	
 	public IntVector2 RandomCoordinates {
 		get {
@@ -144,7 +152,7 @@ public class Maze : MonoBehaviour {
 		rooms.Add(newRoom);
 		return newRoom;
 	}
-	
+
     //Candy Generation
     public void GenerateCandy ()
     {
@@ -180,6 +188,15 @@ public class Maze : MonoBehaviour {
             totalCandy++;
             candy.transform.Translate(Vector3.up * 1f);
             RandomCandy(mr, n, x + 1);
+        }
+    }
+
+    public void GuardGeneration ()
+    {
+        for (int i = 0; i < totalGuards; i++)
+        {
+            guardSpawns[i] = RandomCoordinates;
+            Guard guard = Instantiate(guardPrefab, cells[guardSpawns[i].x][guardSpawns[i].z].transform) as Guard;
         }
     }
 }
