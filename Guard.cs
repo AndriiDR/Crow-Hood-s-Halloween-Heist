@@ -10,7 +10,7 @@ public class Guard : MonoBehaviour {
 
     public Player other;
 
-    private DetectDisplay g;
+    private GameObject g;
 
     private Vector3 otherpos;
 
@@ -23,7 +23,7 @@ public class Guard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        g = g.GetComponent<DetectDisplay>();
+        g = GameObject.Find("Game Manager");
 	}
 	
 	// Update is called once per frame
@@ -43,7 +43,7 @@ public class Guard : MonoBehaviour {
         }
         else
         {
-            detection = g.getDetection();
+            detection = g.GetComponent<DetectDisplay>().getDetection();
             if (Physics.Linecast(transform.position, otherpos))
             {
                 dist = Vector3.Distance(transform.position, otherpos);
