@@ -8,11 +8,11 @@ public class Player : MonoBehaviour {
 
     public Rigidbody rb;
 
-    private int points;
+    private GameObject g;
 
     private void Start()
     {
-        points = 0;
+        g = GameObject.Find("GameManager");
     }
 
     public void SetLocation (MazeCell cell) {
@@ -75,12 +75,13 @@ public class Player : MonoBehaviour {
 		transform.Rotate(lookhere);
 	}
 
-    public void OnCollisionEnter(Collision other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Candy"))
+        if (other.gameObject.CompareTag("candy"))
         {
             points++;
             other.gameObject.SetActive(false);
+	    g.GetComponent<CandyTracker>().addCandy();
         }
     }
 }
