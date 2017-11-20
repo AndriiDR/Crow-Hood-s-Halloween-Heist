@@ -196,7 +196,19 @@ public class Maze : MonoBehaviour {
         for (int i = 0; i < totalGuards; i++)
         {
             guardSpawns[i] = RandomCoordinates;
-            Guard guard = Instantiate(guardPrefab, cells[guardSpawns[i].x][guardSpawns[i].z].transform) as Guard;
+            guards[i] = Instantiate(guardPrefab, cells[guardSpawns[i].x, guardSpawns[i].z].transform) as Guard;
+        }
+    }
+
+    public void RespawnAll ()
+    {
+        for (int i = 0; i < totalGuards; i++)
+        {
+            if (guards[i].gameObject.activeSelf == false)
+            {
+                guards[i].gameObject.SetActive(true);
+                guards[i].transform.position = new Vector3(guardSpawns[i].x, 0f, guardSpawns[i].z);
+            }
         }
     }
 }
