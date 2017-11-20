@@ -3,6 +3,8 @@ public class Player : MonoBehaviour {
 	private MazeCell currentCell;
 	
 	private MazeDirection currentDirection;
+	
+	public float amtForce = 1f;
 
 	public Rigidbody rb;
 
@@ -33,19 +35,19 @@ public class Player : MonoBehaviour {
 	
 	private void Update () {
 		if (Input.GetKey (KeyCode.W)) {
-			rb.AddRelativeForce(Vector3.forward * 30f * Time.deltaTime, ForceMode.Impulse);
+			rb.AddRelativeForce(Vector3.forward * amtForce * Time.deltaTime, ForceMode.Impulse);
 			//transform.Translate (Vector3.forward * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.S)) {
-			rb.AddRelativeForce(Vector3.back * 30f * Time.deltaTime, ForceMode.Impulse);
+			rb.AddRelativeForce(Vector3.back * amtForce * Time.deltaTime, ForceMode.Impulse);
 			//transform.Translate (Vector3.back * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.A)) {
-			rb.AddRelativeForce(Vector3.left * 30f * Time.deltaTime, ForceMode.Impulse);
+			rb.AddRelativeForce(Vector3.left * amtForce * Time.deltaTime, ForceMode.Impulse);
 			//transform.Translate (Vector3.left * 5f * Time.deltaTime);
 		}
 		if (Input.GetKey (KeyCode.D)) {
-			rb.AddRelativeForce(Vector3.right * 30f * Time.deltaTime, ForceMode.Impulse);
+			rb.AddRelativeForce(Vector3.right * amtForce * Time.deltaTime, ForceMode.Impulse);
 			//transform.Translate (Vector3.right * 5f * Time.deltaTime);
 		}
 
