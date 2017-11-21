@@ -191,13 +191,33 @@ public class Maze : MonoBehaviour {
         }
     }
 
+	public Vector3 toTransform(IntVector2 iv){ //converts intvector2 to vector3
+		return new Vector3(iv.x - sizex * 0.5f + 0.5f, 0f, iv.z - sizez * 0.5f + 0.5f);
+	}
+	
     public void GuardGeneration (){
         for (int i = 0; i < totalGuards; i++){
             guardSpawns[i] = RandomCoordinates;
-            guards[i] = Instantiate(guardPrefab, cells[guardSpawns[i].x, guardSpawns[i].z].transform) as Guard;
-            guards[i].GetComponent<Guards>().setFirst(guardSpawns[i]);
+			MazeCell c = cells[guardSpawns[i].x, guardSpawns[i].z]
+            guards[i] = Instantiate(guardPrefab, c.transform) as Guard;
+            guards[i].GetComponent<Guard>().setFirst(guardSpawns[i]);
+			if(c.room.getCells().Count == 1){
+				guards[i].GetComponent<Guard>().setSecond(guardSpawns[i]);
+			}
+			else{
+				int ind = rooms.FindIndex(c.room);
+				List<MazeCell> mc = rooms[ind].getCells();
+				bool stop = false;
+				while(!stop){
+					IntVector2 candidate = mc[Random.Range(0, mc.Count)];
+					if(candidate != guardSpawns[i] && !Physics.Linecast(toTransform(guardSpawns[i]), toTransform(candidate))){
+						guards[i].GetComponent<Guard>().setSecond(candidate);
+						stop = true;
+					}
+				}
+			}
         }
-}
+	}
 
     public void RespawnAll ()
     {
