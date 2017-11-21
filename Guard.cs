@@ -28,7 +28,7 @@ public class Guard : MonoBehaviour {
 
 
 
-	void Start () { //we already have a Start method so this is a replacement
+	void Start () {
         g = GameObject.Find("Game Manager");
         m = GameObject.Find("Maze(Clone)");
 		sizex = m.GetComponent<Maze>().size.x;
