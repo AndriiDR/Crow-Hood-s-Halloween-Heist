@@ -9,11 +9,9 @@ public class Guard : MonoBehaviour {
     public int speed = 1;
     private IntVector2 pos1;
     private IntVector2 pos2;
-    private IntVector2 pos3;
 	
     private Vector3 transf1;
     private Vector3 transf2;
-    private Vector3 transf3;
 	
     private int sizex;
     private int sizez;
@@ -37,87 +35,19 @@ public class Guard : MonoBehaviour {
 		setThird();
 		transf1 = toTransform(pos1);
 		transf2 = toTransform(pos2);
-		transf3 = toTransform(pos3);
     }
 	
 	public void setFirst(IntVector2 pt){ //sets first point
-    		pos1 = pt;
+    	pos1 = pt;
 	}
 	
-	private int newDistance(int old){ //for example if -3 doesn't work then this gives you -2
-    if(old<0){
-        return old+1;
-    }
-    else{
-        return old-1;
-    }
-}
+	public void setSecond(Int Vector2 pt){
+		pos2 = pt;
+	}
 
-public Vector3 toTransform(IntVector2 iv){ //converts intvector2 to vector3
-	return new Vector3(iv.x - sizex * 0.5f + 0.5f, 0f, iv.z - sizez * 0.5f + 0.5f);
-}
-
-private void setSecond(){ //sets the second point
-    int dist; //how far the second point can be from first
-    if(Random.value<0.5f){
-        dist = -3;
-    }
-    else{
-        dist = -2;
-    }
-    bool determined = false; //is the second point okay?
-    while(!determined){
-        pos2 = pos1 + new IntVector2(0, dist);
-        if(!m.GetComponent<Maze>().ContainsCoordinates(pos2)){ //is the second point in the maze?
-            dist = newDistance(dist);
-            if(dist == 0){ //we can't travel vertically in this direction
-                pos2 = pos1;
-                determined = true;
-            }
-        }
-        else if(Physics.Linecast(toTransform(pos1), toTransform(pos2))){ //the first and second points are separated
-			dist = newDistance(dist);
-            if(dist == 0){ //we can't travel vertically in this direction
-                pos2 = pos1;
-                determined = true;
-            }
-		}
-		else{
-			determined = true;
-		}
-    }    
-}
-
-private void setThird(){
-    int dist;
-    if(Random.value<0.5f){
-        dist = -3;
-    }
-    else{
-        dist = -2;
-    }
-    bool determined = false;
-    while(!determined){
-        pos3 = pos1 + new IntVector2(dist, 0);
-        if(!m.GetComponent<Maze>().ContainsCoordinates(pos3)){ //is the third point in the maze?
-            dist = newDistance(dist);
-            if(dist == 0){ //we can't travel horizontally in this direction
-                pos3 = pos1;
-                determined = true;
-            }
-        }
-        else if(Physics.Linecast(toTransform(pos1), toTransform(pos3))){ //the first and second points are separated
-			dist = newDistance(dist);
-            if(dist == 0){ //we can't travel horizontally in this direction
-                pos3 = pos1;
-                determined = true;
-            }
-		}
-		else{
-			determined = true;
-		}
-    }	
-}
+	public Vector3 toTransform(IntVector2 iv){ //converts intvector2 to vector3
+		return new Vector3(iv.x - sizex * 0.5f + 0.5f, 0f, iv.z - sizez * 0.5f + 0.5f);
+	}
 	
 	void Update () {
         otherpos = other.getPos();
@@ -151,18 +81,16 @@ private void setThird(){
 			if(transform.position == transf2){
 				phase = 2;
 			}
-		}
-		else if(phase == 2){
-			transform.position = Vector3.MoveTowards(transform.position, transf3, speed * Time.deltaTime);
-			if(transform.position == transf3){
-				phase = 3;
-			}
+			Quaternion rotation = Quaternion.LookRotation(transf2);
+			transform.rotation = rotation;
 		}
 		else{
-			transform.position = Vector3.MoveTowards(transform.position, transf1, speed*Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform.position, transf1, speed * Time.deltaTime);
 			if(transform.position == transf1){
 				phase = 1;
 			}
+			Quaternion rotation = Quaternion.LookRotation(transf1);
+			transform.rotation = rotation;
 		}
 	}
 
