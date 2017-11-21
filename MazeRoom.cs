@@ -13,6 +13,10 @@ public class MazeRoom : ScriptableObject {
 		cell.room = this;
 		cells.Add(cell);
 	}
+	
+	public void getCount (){
+		return cells.Count;	
+	}
 
 	public void Assimilate (MazeRoom room) {
 		for (int i = 0; i < room.cells.Count; i++) {
