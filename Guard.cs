@@ -10,6 +10,11 @@ public class Guard : MonoBehaviour {
     private IntVector2 pos1;
     private IntVector2 pos2;
     private IntVector2 pos3;
+	
+    private Vector3 transf1;
+    private Vector3 transf2;
+    private Vector3 transf3;
+	
     private int sizex;
     private int sizez;
     private int phase = 1;
@@ -30,6 +35,9 @@ public class Guard : MonoBehaviour {
 		sizez = m.GetComponent<Maze>().size.z;
 		setSecond();
 		setThird();
+		transf1 = toTransform(pos1);
+		transf2 = toTransform(pos2);
+		transf3 = toTransform(pos3);
     }
 	
 	public void setFirst(IntVector2 pt){ //sets first point
@@ -139,20 +147,20 @@ private void setThird(){
         }
 		
 		if(phase == 1){
-			transform.position = Vector3.MoveTowards(pos2, speed * Time.deltaTime);
-			if(transform.position == pos2){
+			transform.position = Vector3.MoveTowards(transform.position, transf2, speed * Time.deltaTime);
+			if(transform.position == transf2){
 				phase = 2;
 			}
 		}
 		else if(phase == 2){
-			transform.position = Vector3.MoveTowards(pos3, speed * Time.deltaTime);
-			if(transform.position == pos3){
+			transform.position = Vector3.MoveTowards(transform.position, transf3, speed * Time.deltaTime);
+			if(transform.position == transf3){
 				phase = 3;
 			}
 		}
 		else{
-			transform.position = Vector3.MoveTowards(pos1, speed*Time.deltaTime);
-			if(transform.position == pos1){
+			transform.position = Vector3.MoveTowards(transform.position, transf1, speed*Time.deltaTime);
+			if(transform.position == transf1){
 				phase = 1;
 			}
 		}
