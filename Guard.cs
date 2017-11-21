@@ -141,7 +141,7 @@ private void setThird(){
                 dist = Vector3.Distance(transform.position, otherpos);
                 if (dist < 5f && dist * Mathf.Cos((0.19444f + 0.27778f * detection / 100) * Mathf.PI) > 5f * Mathf.Cos((0.19444f + 0.27778f * detection / 100) * Mathf.PI))
                 { //the number multiplied by detection will increase the original angle from 35 degrees to 75 degrees at approx 80% detection
-                    g.Increment();
+                    g.GetComponent<DetectDisplay>().Increment();
                 }
             }
         }
