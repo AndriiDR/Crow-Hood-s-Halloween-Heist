@@ -191,14 +191,13 @@ public class Maze : MonoBehaviour {
         }
     }
 
-    public void GuardGeneration ()
-    {
-        for (int i = 0; i < totalGuards; i++)
-        {
+    public void GuardGeneration (){
+        for (int i = 0; i < totalGuards; i++){
             guardSpawns[i] = RandomCoordinates;
             guards[i] = Instantiate(guardPrefab, cells[guardSpawns[i].x, guardSpawns[i].z].transform) as Guard;
+            guards[i].GetComponent<Guards>().setFirst(guardSpawns[i]);
         }
-    }
+}
 
     public void RespawnAll ()
     {
