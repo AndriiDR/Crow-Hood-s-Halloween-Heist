@@ -9,13 +9,11 @@ public class MazeRoom : ScriptableObject {
 	
 	private List<MazeCell> cells = new List<MazeCell>();
 
+	public int thing;
+
 	public void Add (MazeCell cell) {
 		cell.room = this;
 		cells.Add(cell);
-	}
-	
-	public void getCount (){
-		return cells.Count;	
 	}
 
 	public void Assimilate (MazeRoom room) {
@@ -34,5 +32,18 @@ public class MazeRoom : ScriptableObject {
 		for (int i = 0; i < cells.Count; i++) {
 			cells[i].Show();
 		}
+	}
+
+	public int getRoomSize () {
+		return cells.Count;
+	}
+
+    public List<MazeCell> getCells ()
+    {
+        return cells;
+    }
+
+    public MazeCell getRoomCell (int a) {
+		return cells [a];
 	}
 }
