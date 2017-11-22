@@ -19,7 +19,7 @@ public class Maze : MonoBehaviour {
 	
 	public MazeWall[] wallPrefabs;
 
-    public Candy[] candyPrefabs;
+    //public Candy[] candyPrefabs;
 	
 	public MazeRoomSettings[] roomSettings;
 	
@@ -30,8 +30,10 @@ public class Maze : MonoBehaviour {
     public Guard guardPrefab;
 
     private IntVector2[] guardSpawns;
+	
+	private Guard[] guards;
 
-    public int totalCandy;
+    //public int totalCandy;
 
     public int totalGuards;
 	
@@ -153,7 +155,7 @@ public class Maze : MonoBehaviour {
 		return newRoom;
 	}
 
-    //Candy Generation
+/*    //Candy Generation
     public void GenerateCandy ()
     {
         foreach (MazeRoom mr in rooms)
@@ -190,27 +192,28 @@ public class Maze : MonoBehaviour {
             RandomCandy(mr, n, x + 1);
         }
     }
+*/
 
 	public Vector3 toTransform(IntVector2 iv){ //converts intvector2 to vector3
-		return new Vector3(iv.x - sizex * 0.5f + 0.5f, 0f, iv.z - sizez * 0.5f + 0.5f);
+		return new Vector3(iv.x - size.x * 0.5f + 0.5f, 0f, iv.z - size.z * 0.5f + 0.5f);
 	}
 	
     public void GuardGeneration (){
         for (int i = 0; i < totalGuards; i++){
             guardSpawns[i] = RandomCoordinates;
-			MazeCell c = cells[guardSpawns[i].x, guardSpawns[i].z]
+			MazeCell c = cells[guardSpawns[i].x, guardSpawns[i].z];
             guards[i] = Instantiate(guardPrefab, c.transform) as Guard;
             guards[i].GetComponent<Guard>().setFirst(guardSpawns[i]);
 			if(c.room.getCells().Count == 1){
 				guards[i].GetComponent<Guard>().setSecond(guardSpawns[i]);
 			}
 			else{
-				int ind = rooms.FindIndex(c.room);
+				int ind = rooms.IndexOf(c.room);
 				List<MazeCell> mc = rooms[ind].getCells();
 				bool stop = false;
 				while(!stop){
-					IntVector2 candidate = mc[Random.Range(0, mc.Count)];
-					if(candidate != guardSpawns[i] && !Physics.Linecast(toTransform(guardSpawns[i]), toTransform(candidate))){
+					IntVector2 candidate = (mc[Random.Range(0, mc.Count)]).coordinates;
+					if(candidate.x != guardSpawns[i].x && candidate.z != guardSpawns[i].z && !Physics.Linecast(toTransform(guardSpawns[i]), toTransform(candidate))){
 						guards[i].GetComponent<Guard>().setSecond(candidate);
 						stop = true;
 					}
