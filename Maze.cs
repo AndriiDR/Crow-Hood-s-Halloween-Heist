@@ -19,7 +19,7 @@ public class Maze : MonoBehaviour {
 	
 	public MazeWall[] wallPrefabs;
 
-    //public Candy[] candyPrefabs;
+    public Candy[] candyPrefabs;
 	
 	public MazeRoomSettings[] roomSettings;
 	
@@ -155,7 +155,7 @@ public class Maze : MonoBehaviour {
 		return newRoom;
 	}
 
-/*    //Candy Generation
+   //Candy Generation
     public void GenerateCandy ()
     {
         foreach (MazeRoom mr in rooms)
@@ -192,7 +192,7 @@ public class Maze : MonoBehaviour {
             RandomCandy(mr, n, x + 1);
         }
     }
-*/
+
 
 	public Vector3 toTransform(IntVector2 iv){ //converts intvector2 to vector3
 		return new Vector3(iv.x - size.x * 0.5f + 0.5f, 0f, iv.z - size.z * 0.5f + 0.5f);
