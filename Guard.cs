@@ -31,8 +31,6 @@ public class Guard : MonoBehaviour {
         m = GameObject.Find("Maze(Clone)");
 		sizex = m.GetComponent<Maze>().size.x;
 		sizez = m.GetComponent<Maze>().size.z;
-		setSecond();
-		setThird();
 		transf1 = toTransform(pos1);
 		transf2 = toTransform(pos2);
     }
@@ -41,7 +39,7 @@ public class Guard : MonoBehaviour {
     	pos1 = pt;
 	}
 	
-	public void setSecond(Int Vector2 pt){
+	public void setSecond(IntVector2 pt){
 		pos2 = pt;
 	}
 
@@ -50,7 +48,7 @@ public class Guard : MonoBehaviour {
 	}
 	
 	void Update () {
-        otherpos = other.getPos();
+       otherpos = other.transform.position;
         if (track)
         {
             while (Physics.Linecast(transform.position, otherpos)) {
