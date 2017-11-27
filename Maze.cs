@@ -199,9 +199,12 @@ public class Maze : MonoBehaviour {
 	}
 	
     public void GuardGeneration (){
-        for (int i = 0; i < totalGuards; i++){
-            guardSpawns[i] = RandomCoordinates;
-			MazeCell c = cells[guardSpawns[i].x, guardSpawns[i].z];
+        totalGuards = 30;
+       	guardSpawns = new IntVector2[totalGuards];
+       	guards = new Guard[totalGuards];
+       	for (int i = 0; i < totalGuards; i++){
+           guardSpawns[i] = new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
+		MazeCell c = cells[guardSpawns[i].x, guardSpawns[i].z];
             guards[i] = Instantiate(guardPrefab, c.transform) as Guard;
             guards[i].GetComponent<Guard>().setFirst(guardSpawns[i]);
 			if(c.room.getCells().Count == 1){
@@ -211,11 +214,19 @@ public class Maze : MonoBehaviour {
 				int ind = rooms.IndexOf(c.room);
 				List<MazeCell> mc = rooms[ind].getCells();
 				bool stop = false;
+				int tries = 0;
 				while(!stop){
 					IntVector2 candidate = (mc[Random.Range(0, mc.Count)]).coordinates;
 					if(candidate.x != guardSpawns[i].x && candidate.z != guardSpawns[i].z && !Physics.Linecast(toTransform(guardSpawns[i]), toTransform(candidate))){
 						guards[i].GetComponent<Guard>().setSecond(candidate);
 						stop = true;
+					}
+					else if(tries>= 3){
+						guards[i].GetComponent<Guard>().setSecond(guardSpawns[i]);
+						stop = true;
+					}
+					else{
+						tries++;
 					}
 				}
 			}
